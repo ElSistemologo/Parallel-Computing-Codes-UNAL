@@ -28,7 +28,7 @@ void printMatrix(float *A){
     }
 }
 
-int verify(float *A, float *B, float *C){
+void verify(float *A, float *B, float *C){
     int i, j, k;
     float sum;
 
@@ -41,11 +41,10 @@ int verify(float *A, float *B, float *C){
             if(fabs(*(C + i*N + j) - sum) > 1e-4){
                 printf("ERROR. Verify failed at element: %d\n", i*N+j);
                 printf("Expected: %f. Found: %f\n\n", sum, *(C + i*N + j));
-                return 0;
+                return;
             }
         }
     }
-    return 1;
 }
 
 float* initMatrix(float *A, int fill){
@@ -155,7 +154,7 @@ int main(void)
         exit(EXIT_FAILURE);
     }
  
-    //verify(h_A, h_B, h_C);
+    verify(h_A, h_B, h_C);
 
     /*FREE ALL*/
  

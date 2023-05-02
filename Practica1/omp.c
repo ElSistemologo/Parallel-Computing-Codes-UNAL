@@ -4,6 +4,7 @@
 #include <math.h>
 
 #define N 1024
+#define THREADS 1024
 
 void transpose(float *A, float *B) {
     int i,j;
@@ -48,7 +49,7 @@ void printMatrix(float *A){
 
 void multiply(float *A, float *B, float *C) 
 {   
-    #pragma omp parallel
+    #pragma omp parallel num_threads(THREADS)
     {
         int i, j, k, offset;
         #pragma omp for
@@ -77,7 +78,7 @@ float* initMatrix(float *A, int fill){
     return A;
 }
 
-int verify(float* A, float* B, float* C){
+void verify(float* A, float* B, float* C){
     for(int i=0; i<N; i++) {
         for(int j=0; j<N; j++) {
             float sum = 0.0;
@@ -87,11 +88,10 @@ int verify(float* A, float* B, float* C){
             if(fabs(C[i*N+j] - sum) > 1e-5){
                 printf("ERROR. Verify failed at element: %d, %d\n", i, j);
                 printf("Expected: %f, Found: %f\n", sum, C[i*N+j]);
-                return 0;
+                return;
             }
         }
     }
-    return 1;
 }
 
 int main() {
@@ -103,7 +103,7 @@ int main() {
     C = initMatrix(A, 0);
 
     multiply(A,B,C);
-    //verify(A, B, C);
+    verify(A, B, C);
 
     free(A);
     free(B);
