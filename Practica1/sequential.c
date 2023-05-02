@@ -41,17 +41,18 @@ float* initMatrix(float *A, int fill){
 
 void multiply(float *A, float *B, float *C)
 {
-    int i, j, k;
+    int i, j, k, offset;
     float sum;
 
     for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            sum = 0.0;
-            for (k = 0; k < N; k++) {
-                sum += *(A + i*N + k) * *(B + k*N + j);
-            }
-            *(C + i*N + j) = sum;
+      offset = i*N;
+      for (j = 0; j < N; j++) {
+        sum = 0.0;
+        for (k = 0; k < N; k++) {
+            sum += *(A + offset + k) * *(B + k*N + j);
         }
+        *(C + offset + j) = sum;
+      }
     }
     
 }

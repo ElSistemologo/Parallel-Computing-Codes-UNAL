@@ -4,7 +4,7 @@ const int N = 1024;
 const int SHMEM_SIZE = 1024;
 
 // Threads per block
-int THREADS = 4;
+int THREADS = 32;
 
 __global__ void matrixMul(const float *A, const float *B, float *C) {
   // Compute row and column index
