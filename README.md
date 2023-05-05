@@ -1,5 +1,4 @@
 # Hola!
-# Practica 1
 ### Computación Paralela y Distribuida
 ### Universidad Nacional de Colombia
 ---
@@ -8,6 +7,4 @@ By:
 - Iván Lombana
 ---
 
-En este repositorio se presentan los codigos generados para la práctica en la cual se buscaba paralelizar la multiplicación de matrices utilizando tanto OMP como CUDA.
-
-Los programas contienen una funcion *verify* para revisar que la matriz resultante cconcuerde con los valores hallados de manera secuencial.
+En este repositorio encontrarás los códigos realizados durante la materia de *Computación Paralela y Distribuida* para las distintas prácticas planteadas durante el desarrollo de la clase.
