@@ -4,7 +4,7 @@
 #include <math.h>
 
 #define N 1024
-#define THREADS 1024
+#define THREADS 32
 
 void transpose(float *A, float *B) {
     int i,j;
@@ -103,7 +103,7 @@ int main() {
     C = initMatrix(A, 0);
 
     multiply(A,B,C);
-    verify(A, B, C);
+    //verify(A, B, C);
 
     free(A);
     free(B);

@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h> // Incluir la librería OpenMP
+#include <math.h>
 
 int n = 1024;
-int nThreads = 2; // Definir la cantidad de hilos a ejecutar
+int nThreads = 32; // Definir la cantidad de hilos a ejecutar
 void printMatrix(float **A){
     for(int row = 0; row<n; row++){
       for(int column = 0; column<n; column++){
@@ -37,6 +38,25 @@ float** multMatrix(float **A, float **B, float **C){
   return C;
 }
 
+void verify(float **A, float **B, float **C){
+    int i, j, k;
+    float sum;
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            sum = 0.0;
+            for (k = 0; k < n; k++) {
+                sum += *(*(A+i)+k) * *(*(B+k)+j);
+            }
+            if(fabs(*(*(C+i)+j) - sum) > 1e-3){
+                printf("ERROR. Verify failed at element: %d\n", i*n+j);
+                printf("Expected: %f. Found: %f\n\n", sum, *(*(C+i)+j));
+                return;
+            }
+        }
+    }
+}
+
 int main(){
 
     float **matrixA, **matrixB, **matrixC;
@@ -51,6 +71,7 @@ int main(){
 
     // printMatrix(matrixC);
 
+    //verify(matrixA, matrixB, matrixC);
 
     //Free matrix
     for(int row = 0; row<n; row++) {
