@@ -42,15 +42,18 @@ void initMatrix(float **A, int fill) {
     }
 }
 
-void multiply(float *aa, float *B, float *cc) {
+void multiply(float *aa, float *B, float *cc, int size) {
     int i, j, k;
-    float sum = 0;
+    float sum;
 
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            sum = aa[j] * B[j * N + i];
+    for (k = 0; k < N/size; k++){
+        for (i = 0; i < N; i++){
+            sum = 0;
+            for (j = 0; j < N; j++){
+                sum = sum + aa[k*N+j] * B[j*N+i];            
+            }
+            cc[k*N+i] = sum;
         }
-        cc[i] = sum;
     }
 }
 
@@ -75,15 +78,7 @@ int main(int argc, char *argv[]) {
     
     MPI_Barrier(MPI_COMM_WORLD); 
 
-    for (k = 0; k < N/size; k++){
-        for (i = 0; i < N; i++){
-            sum = 0;
-            for (j = 0; j < N; j++){
-                sum = sum + aa[k*N+j] * B[j*N+i];  //MISTAKE_WAS_HERE               
-            }
-            cc[k*N+i] = sum;
-        }
-    }
+    multiply(aa, B, cc, size);
 
     // Gather the final result to process 0
     MPI_Gather(cc, N*N/size, MPI_FLOAT, C, N*N/size, MPI_FLOAT, 0, MPI_COMM_WORLD);
